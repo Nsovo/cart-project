@@ -13,14 +13,15 @@ const cartSlice = createSlice({
         const quantityToAdd = action.payload.quantity || 1;
         state.push({ ...action.payload, quantity: quantityToAdd });
       }
-    },        
+    },
     removeCartItem: (state, action: PayloadAction<number>) => {
-      return state.filter((item) => item.id !== action.payload);
+      console.log('Removing item with id:', action.payload);
+      state = state.filter((item) => item.id !== action.payload);
     },
     updateCartItem: (state, action: PayloadAction<CartItem>) => {
-      const item = state.find((item) => item.id === action.payload.id);
-      if (item) {
-        item.quantity = action.payload.quantity;
+      const index = state.findIndex((item) => item.id === action.payload.id);
+      if (index !== -1) {
+        state.splice(index, 1);
       }
     },
     clearCart: () => {

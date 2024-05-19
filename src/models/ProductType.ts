@@ -4,3 +4,9 @@ export interface ProductType {
   price: number;
   image: string;
 }
+
+export enum ButtonSize {
+  SMALL = "small",
+  MEDIUM = "medium",
+  LARGE = "large"
+}

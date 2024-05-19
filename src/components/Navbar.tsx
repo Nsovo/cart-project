@@ -22,7 +22,6 @@ const Navbar = ({ toggleCart }: NavbarProps) => {
             <ShoppingCartIcon fontSize="large" />
           </IconButton>
         </Tooltip>
-        {/* Text aligned to the far right */}
         Number of items in a cart
       </Box>
     </Box>

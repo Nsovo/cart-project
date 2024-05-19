@@ -5,23 +5,31 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { RootState } from "../store/rootReducer";
-import removeFromCart from "../store/slices/cartSlice";
 import { formatCurrency } from "../utils/formatCurrency";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button } from "@mui/material";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import { ButtonSize } from "../models/ProductType";
+import SubmitButton from "./shared/Button";
+import CustomBox from "./shared/Box";
+import { removeCartItem } from "../store/slices/cartSlice";
 
 interface CartProps {
   toggleCart: (open: boolean) => () => void;
 }
 
-const Cart: React.FC<CartProps> = ({ toggleCart }) => {
+const Cart = ({ toggleCart }: CartProps) => {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
 
-  const handleRemove = (id: number) => {
-    dispatch(removeFromCart(id));
+  const handleRemove = (item:any) => {
+    console.log({cart})
+    dispatch(removeCartItem(item.id));
+    console.log({cart})
+
   };
+
+  const handleCheckout = () => {};
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -36,7 +44,7 @@ const Cart: React.FC<CartProps> = ({ toggleCart }) => {
         }}
       >
         <Typography variant="h4" gutterBottom>
-          Cart
+          Cart({cart.length} items)
         </Typography>
         <IconButton onClick={toggleCart(false)}>
           <CloseIcon />
@@ -46,22 +54,7 @@ const Cart: React.FC<CartProps> = ({ toggleCart }) => {
         <Grid container spacing={2}>
           {cart.map((item) => (
             <Grid item xs={12} key={item.id}>
-              <Box
-                sx={{
-                  borderRadius: 2,
-                  boxShadow: 3,
-                  padding: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  "&:hover": {
-                    transition: "0.3s ease-in",
-                    cursor: "pointer",
-                    boxShadow: 6,
-                  },
-                }}
-              >
+              <CustomBox borderRadius={2} boxShadow={3}>
                 <img
                   src={item.image}
                   alt={item.name}
@@ -87,7 +80,7 @@ const Cart: React.FC<CartProps> = ({ toggleCart }) => {
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
-              </Box>
+              </CustomBox>
             </Grid>
           ))}
           <Grid item xs={12}>
@@ -95,7 +88,12 @@ const Cart: React.FC<CartProps> = ({ toggleCart }) => {
               <Typography variant="h6">
                 Total: {formatCurrency(total)}
               </Typography>
-              <Button>Checkout</Button>
+              <SubmitButton
+                onClick={handleCheckout}
+                startIcon={<ShoppingBasketIcon />}
+                name="Checkout"
+                buttonSize={ButtonSize.MEDIUM}
+              />
             </Box>
           </Grid>
         </Grid>
