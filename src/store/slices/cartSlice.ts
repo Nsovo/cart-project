@@ -1,6 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItem } from "../initialState";
 
+/**
+ * Represents the cart slice of the store.
+ *
+ * @remarks
+ * The cart slice contains the state and reducers related to the shopping cart.
+ *
+ * @public
+ */
 const cartSlice = createSlice({
   name: "cart",
   initialState: [] as CartItem[],

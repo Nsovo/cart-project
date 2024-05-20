@@ -1,7 +1,7 @@
+
 export interface Product {
     id: number;
     name: string;
-    description: string;
     price: number;
     image: string;
 }
@@ -20,10 +20,14 @@ export interface AppState {
     products: Product[];
     cart: CartItem[];
     user: User | null;
+    loading: boolean;
+    error: string | null;
 }
 
 export const initialState: AppState = {
     products: [],
     cart: [],
     user: null,
-  };
+    loading: false,
+    error: null,
+};

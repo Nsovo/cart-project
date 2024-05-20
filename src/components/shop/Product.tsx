@@ -1,26 +1,34 @@
-import { formatCurrency } from "../../utils/formatCurrency";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { Box } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import Tooltip from "@mui/material/Tooltip";
-import { ButtonSize, ProductType } from "../../models/ProductType";
-import SubmitButton from "../shared/Button"; // Import the SubmitButton component
+import Typography from "@mui/material/Typography";
+import { ButtonSize } from "../../models/enum";
+import { formatCurrency } from "../../utils/formatCurrency";
 import CustomBox from "../shared/Box";
+import SubmitButton from "../shared/Button";
+
+
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+}
 
 interface ProductProps {
-  data: ProductType;
+  data: Product;
   handleAddToCart: () => void;
 }
 
-const Product = ({ data, handleAddToCart }: ProductProps) => {
+const Product = ({ data, handleAddToCart }: ProductProps): JSX.Element => {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <CustomBox width={300} height={420} margin="20px auto">
         <img src={data.image} alt={data.name} style={{ width: "100%" }} />
         <Box sx={{ textAlign: "center", marginTop: 2 }}>
           <Typography variant="body1" component="p" gutterBottom>
-            <b>{data.name}</b>
+            <strong>{data.name}</strong>
           </Typography>
           <Typography variant="body2" component="p" gutterBottom>
             {formatCurrency(data.price)}
@@ -30,7 +38,7 @@ const Product = ({ data, handleAddToCart }: ProductProps) => {
           <SubmitButton
             onClick={handleAddToCart}
             startIcon={<AddShoppingCartIcon />}
-            name=" Add to Cart"
+            text=" Add to Cart"
             buttonSize={ButtonSize.MEDIUM}
           />
         </Tooltip>

@@ -1,18 +1,16 @@
-import { useSelector, useDispatch } from "react-redux";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import { RootState } from "../store/rootReducer";
-import { formatCurrency } from "../utils/formatCurrency";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import { ButtonSize } from "../models/ProductType";
-import SubmitButton from "./shared/Button";
-import CustomBox from "./shared/Box";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/rootReducer";
 import { removeCartItem } from "../store/slices/cartSlice";
+import { formatCurrency } from "../utils/formatCurrency";
+import CustomBox from "./shared/Box";
+import PayPalPayment from "./payment/PayPalPayment";
+import CustomPagination from "./shared/Pagination";
+
+const MIN_ITEMS_FOR_PAGINATION = 3;
 
 interface CartProps {
   toggleCart: (open: boolean) => () => void;
@@ -21,17 +19,34 @@ interface CartProps {
 const Cart = ({ toggleCart }: CartProps) => {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
-  const handleRemove = (item:any) => {
-    console.log({cart})
-    dispatch(removeCartItem(item.id));
-    console.log({cart})
+  //Calculates the total number of items in the cart
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  //Calculates the total amount of the items in the cart
+  const totalAmount = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  
+  //Calculates the total number of pages based on the number of items in the cart and the items per page.
+  const totalPages = Math.ceil(cart.length / itemsPerPage);
+
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPage(value);
   };
 
-  const handleCheckout = () => {};
+  const handleRemove = (id: number) => {
+    dispatch(removeCartItem(id));
+  };
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Retrieves a paginated subset of items from the cart array,currentPage:The current page number and itemsPerPage: The number of items to display per page.
+  const paginatedItems = cart.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <Box sx={{ width: 300, padding: 4 }}>
@@ -44,7 +59,7 @@ const Cart = ({ toggleCart }: CartProps) => {
         }}
       >
         <Typography variant="h4" gutterBottom>
-          Cart({cart.length} items)
+          Cart {totalItems > 0 && `(${totalItems} ${totalItems === 1 ? "item" : "items"})`}
         </Typography>
         <IconButton onClick={toggleCart(false)}>
           <CloseIcon />
@@ -52,7 +67,7 @@ const Cart = ({ toggleCart }: CartProps) => {
       </Box>
       {cart.length > 0 ? (
         <Grid container spacing={2}>
-          {cart.map((item) => (
+          {paginatedItems.map((item) => (
             <Grid item xs={12} key={item.id}>
               <CustomBox borderRadius={2} boxShadow={3}>
                 <img
@@ -66,10 +81,10 @@ const Cart = ({ toggleCart }: CartProps) => {
                 />
                 <Box sx={{ textAlign: "center", marginTop: 2 }}>
                   <Typography variant="body1" component="p" gutterBottom>
-                    <b>{item.name}</b>
+                    <strong>{item.name}</strong>
                   </Typography>
                   <Typography variant="body2" component="p" gutterBottom>
-                    {formatCurrency(item.price)}
+                    {formatCurrency(item.price)} x {item.quantity}
                   </Typography>
                 </Box>
                 <Tooltip title="Remove from cart">
@@ -86,16 +101,20 @@ const Cart = ({ toggleCart }: CartProps) => {
           <Grid item xs={12}>
             <Box sx={{ textAlign: "right", marginTop: 2 }}>
               <Typography variant="h6">
-                Total: {formatCurrency(total)}
+                Total: {formatCurrency(totalAmount)}
               </Typography>
-              <SubmitButton
-                onClick={handleCheckout}
-                startIcon={<ShoppingBasketIcon />}
-                name="Checkout"
-                buttonSize={ButtonSize.MEDIUM}
-              />
+              <PayPalPayment totalAmount={totalAmount} />
             </Box>
           </Grid>
+          {cart.length >= MIN_ITEMS_FOR_PAGINATION && (
+            <Grid item xs={12}>
+              <CustomPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </Grid>
+          )}
         </Grid>
       ) : (
         <Typography variant="body1">Your cart is empty</Typography>
