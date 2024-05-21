@@ -8,8 +8,6 @@ LittleFish Shop is an e-commerce application built with React that allows users 
 - [Technologies Used](#technologies-used)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 - [Areas for Improvement](#areas-for-improvement)
 - [Future Project Plans](#future-project-plans)
 - [Merge Request Review](#merge-request-review)
@@ -53,32 +51,19 @@ LittleFish Shop is a user-friendly e-commerce platform designed to provide custo
 5. Proceed to checkout to complete your purchase securely.
 
 ## Areas for Improvement
+## TODO: How I could have done things better or added if I had more time
 
-1. **User Authentication:**
-   - Implement user authentication by creating a user model and authentication controller. Utilize JWT tokens for secure authentication.
-
-2. **Accessibility:**
-   - Enhance accessibility by adding tabindex attributes to facilitate keyboard navigation.
-
-3. **Testing:**
-   - Resolve testing issues encountered during implementation. Debugging data fetching problems, especially via API, could have been addressed given more time.
+- Implement login/create DB, create a user model and user authentication controller, use JWT token.
+- Add tab index to assist with keyboard navigation.
+-  Make tests work; had an issue that I was trying to debug before I ran out of time. This could have been solved if the implementation was properly fetching data via API.
 
 ## Future Project Plans
-
-1. **Database Migration:**
-   - Transition product data to a database for improved scalability and management.
-
-2. **API Development:**
-   - Develop a RESTful API to retrieve product information. The necessary infrastructure is already in place; connecting to an external URL will streamline this process.
+-  Move the products to a DB.
+- Create a RESTful API to get the products (hook the URL, implementation already in place).
 
 ## Merge Request Review
 
-- **Performance Enhancement:**
-   - Consider refactoring `Products.ts` for improved performance, as its current implementation may lead to scalability issues. Consider implementing a ticket system for fetching data from the API.
-  
-- **SDK Integration:**
-   - Propose moving the payment functionality to an SDK and packaging it as an npm module for easier integration and maintenance.
-  
-- **Code Organization:**
-   - To ensure code cleanliness and organization, relocate the `Product` interface to a shared file and eliminate any redundancy with existing product declarations in the initial state file.
+ - Products.ts can be implemented better; the current implementation may lead to performance issues due to its size. Consider adding a ticket to fetch from the API.
+ - Move payment to SDK and call it via npm.
+ - Move export interface Product to its file to be shared and also ensure there is no redundancy with the product in the initial state TS file.
 
