@@ -13,11 +13,11 @@ import Product from "./Product";
 import CustomPagination from "../shared/Pagination";
 
 const Shop = () => {
-  const dispatch = useDispatch();
   const [successMessage, setSuccessMessage] = useState("");
   const [isCartOpen, setCartOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
+  const dispatch = useDispatch();
   const { products, loading, error } = useSelector(
     (state: RootState) => state.products
   );

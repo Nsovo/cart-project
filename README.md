@@ -39,7 +39,7 @@ LittleFish Shop is a user-friendly e-commerce platform designed to provide custo
 1. Clone the repository: `git clone https://github.com/Nsovo/cart-project.git`
 2. Navigate to the project directory: `cd cart-project`
 3. Install dependencies: `npm install` or `yarn install`
-4. Start the development server: `npm start` or `yarn start`
+4. Start the development server: `npm start` or `yarn dev`
 5. Run `yarn test` to execute tests.
 
 ## Usage

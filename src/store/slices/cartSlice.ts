@@ -23,8 +23,7 @@ const cartSlice = createSlice({
       }
     },
     removeCartItem: (state, action: PayloadAction<number>) => {
-      console.log('Removing item with id:', action.payload);
-      state = state.filter((item) => item.id !== action.payload);
+      return state.filter((item) => item.id !== action.payload);
     },
     updateCartItem: (state, action: PayloadAction<CartItem>) => {
       const index = state.findIndex((item) => item.id === action.payload.id);
