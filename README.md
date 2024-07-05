@@ -1,6 +1,6 @@
 # Project Title
 
-LittleFish Shop is an e-commerce application built with React that allows users to browse and purchase products. The application features a cart functionality where users can add products to their cart, view their cart contents, and proceed to checkout intergrated with paypal.
+This is a Shop is an e-commerce application built with React that allows users to browse and purchase products. The application features a cart functionality where users can add products to their cart, view their cart contents, and proceed to checkout intergrated with paypal.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -14,7 +14,7 @@ LittleFish Shop is an e-commerce application built with React that allows users 
 
 ## Introduction
 
-LittleFish Shop is a user-friendly e-commerce platform designed to provide customers with a seamless shopping experience. Users can explore a wide range of products, add them to their cart, and securely proceed to checkout.
+The Shop app is a user-friendly e-commerce platform designed to provide customers with a seamless shopping experience. Users can explore a wide range of products, add them to their cart, and securely proceed to checkout.
 
 ## Features
 
